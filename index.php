@@ -29,8 +29,7 @@ $stmt = $pdo->query($sql);
                     <th>No</th>
                     <th>Kode</th>
                     <th>Nama Barang</th>
-                    <th>Kategori</th>
-                    <th>Deskripsi</th>
+                    <th>Jenis Barang</th>
                     <th>Stok</th>
                     <th>Harga</th>
                     <th>Tanggal Masuk</th>
