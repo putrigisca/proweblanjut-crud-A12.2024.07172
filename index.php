@@ -51,7 +51,6 @@ $stmt = $pdo->query($sql);
                             <?= htmlspecialchars($row['kategori']); ?>
                         </span>
                     </td>
-                    <td><?= htmlspecialchars($row['deskripsi']); ?></td>
                     <td><?= htmlspecialchars($row['jumlah']); ?> <span style="color: #94a3b8; font-size: 12px;"><?= htmlspecialchars($row['satuan']); ?></span></td>
                     <td class="harga">Rp <?= number_format($row['harga'], 0, ',', '.'); ?></td>
                     <td><?= date('d M Y', strtotime($row['tanggal_masuk'])); ?></td>
