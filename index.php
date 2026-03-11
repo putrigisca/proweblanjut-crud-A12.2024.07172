@@ -1,8 +1,17 @@
 <?php
 require_once 'koneksi.php';
 
-$sql = "SELECT * FROM barang ORDER BY id DESC";
-$stmt = $pdo->query($sql);
+$keyword = '';
+if (isset($_GET['cari'])) {
+    $keyword = $_GET['cari'];
+    $sql = "SELECT * FROM barang WHERE kode_barang LIKE :keyword OR nama_barang LIKE :keyword OR kategori LIKE :keyword ORDER BY id DESC";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':keyword', "%$keyword%");
+    $stmt->execute();
+} else {
+    $sql = "SELECT * FROM barang ORDER BY id DESC";
+    $stmt = $pdo->query($sql);
+}
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +31,19 @@ $stmt = $pdo->query($sql);
             <h2>Daftar Inventaris Barang</h2>
             <a href="tambah.php" class="btn-tambah"><i class="fas fa-plus"></i> Tambah Barang Baru</a>
         </div>
+
+    `<form action="index.php" method="GET" class="search-form">
+        <input type="text" name="cari" placeholder="Cari nama, kode, jenis..." 
+            class="search-input" value="<?= htmlspecialchars($keyword ?? ''); ?>">
+        
+        <button type="submit" class="btn-search">
+            <i class="fas fa-search"></i> Cari
+        </button>
+        
+        <a href="index.php" class="btn-reset" title="Reset Pencarian">
+            <i class="fas fa-undo-alt"></i> Reset
+        </a>
+    </form>
 
         <table>
             <thead>
