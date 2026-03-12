@@ -57,19 +57,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 
     <form method="POST">
-        <div class="form-group">
+        <div class="form-grid-2">
+        <div class="form-group-card">
             <label>Kode Barang (Otomatis)</label>
             <input type="text" name="kode_barang" value="<?= $kode_otomatis; ?>" readonly>
         </div>
-        <div class="form-group">
+        <div class="form-group-card">
             <label>Nama Barang</label>
             <input type="text" name="nama_barang" required>
         </div>
-        <div class="form-group">
+        <div class="form-group-card">
                 <label>Warna</label>
-                <input type="text" name="warna" placeholder="Putih/Kuning/Transparan/lainnya">
+                <select name="warna">
+                    <option value="">Pilih Warna</option>
+                    <option value="Merah">Merah</option>
+                    <option value="Biru">Biru</option>
+                    <option value="Hijau">Hijau</option>
+                    <option value="Kuning">Kuning</option>
+                    <option value="Hitam">Hitam</option>
+                    <option value="Putih">Putih</option>
+                    <option value="Abu-abu">Abu-abu</option>
+                    <option value="Coklat">Coklat</option>
+                    <option value="Ungu">Ungu</option>
+                    <option value="Pink">Pink</option>
+                    <option value="Lainnya">Lainnya</option>
+            </select>
         </div>
-        <div class="form-group">
+        <div class="form-group-card">
             <label>Kategori</label>
             <select name="kategori" required>
                 <option value="">Pilih Kategori</option>
@@ -83,27 +97,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <option value="Lainnya">Lainnya</option>
             </select>
         </div>
-        <div class="form-group">
+        <div class="form-group-card">
             <label>Jumlah</label>
             <input type="number" name="jumlah" required>
         </div>
-        <div class="form-group">
+        <div class="form-group-card">
             <label>Satuan</label>
             <input type="text" name="satuan" required placeholder="pcs/kg/liter/pack">
         </div>
-        <div class="form-group">
+        <div class="form-group-card">
             <label>Harga</label>
             <input type="number" name="harga" required>
         </div>
-        <div class="form-group">
+        <div class="form-group-card">
             <label>Tanggal Masuk</label>
             <input type="date" name="tanggal_masuk" required value="<?= date('Y-m-d'); ?>">
         </div>
-         <div class="form-group">
+    </div>
+        <div class="form-group-card form-group-full ">
             <label>Deskripsi</label>
             <textarea name="deskripsi" rows="3"></textarea>
         </div>
-        <div class="form-group">
+        <div class="action-buttons">
             <a href="index.php" class="btn btn-kembali">Kembali</a>
             <button type="submit" class="btn btn-simpan">Simpan Data</button>
         </div>
