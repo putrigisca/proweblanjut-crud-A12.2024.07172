@@ -42,13 +42,13 @@ if (!$barang) {
     </div>
     
     <div class="form-group">
+            <label>Warna</label>
+            <input type="text" value="<?= htmlspecialchars($barang['warna'] ?? 'Tidak ada'); ?>" readonly>
+    </div>
+
+    <div class="form-group">
         <label>Kategori</label>
         <input type="text" value="<?= htmlspecialchars($barang['kategori']); ?>" readonly>
-    </div>
-    
-    <div class="form-group">
-        <label>Deskripsi</label>
-        <textarea rows="3" readonly><?= htmlspecialchars($barang['deskripsi']); ?></textarea>
     </div>
     
     <div class="form-group">
@@ -69,6 +69,11 @@ if (!$barang) {
     <div class="form-group">
         <label>Tanggal Masuk</label>
         <input type="text" value="<?= htmlspecialchars($barang['tanggal_masuk']); ?>" readonly>
+    </div>
+    
+    <div class="form-group">
+        <label>Deskripsi</label>
+        <textarea rows="3" readonly><?= htmlspecialchars($barang['deskripsi']); ?></textarea>
     </div>
     
     <div class="form-group">

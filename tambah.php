@@ -66,16 +66,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="text" name="nama_barang" required>
         </div>
         <div class="form-group">
-            <label>Kategori</label>
-            <select name="kategori" required>
-                <option value="Bahan Baku">Bahan Baku</option>
-                <option value="Peralatan">Peralatan</option>
-                <option value="Kemasan">Kemasan</option>
-            </select>
+                <label>Warna</label>
+                <input type="text" name="warna" placeholder="Putih/Kuning/Transparan/lainnya">
         </div>
         <div class="form-group">
-            <label>Deskripsi</label>
-            <textarea name="deskripsi" rows="3"></textarea>
+            <label>Kategori</label>
+            <select name="kategori" required>
+                <option value="Bahan Baku">Pilih Kategori</option>
+                <option value="Bahan Baku">Bahan Baku</option>
+                <option value="Bahan Baku">Makanan</option>
+                <option value="Bahan Baku">Minuman</option>
+                <option value="Peralatan">Alat tulis</option>
+                <option value="Peralatan">Elektronik</option>
+                <option value="Peralatan">Peralatan Olahraga</option>
+                <option value="Kemasan">Kemasan</option>
+                <option value="Kemasan">Lainnya</option>
+            </select>
         </div>
         <div class="form-group">
             <label>Jumlah</label>
@@ -83,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div class="form-group">
             <label>Satuan</label>
-            <input type="text" name="satuan" required placeholder="pcs/kg/liter">
+            <input type="text" name="satuan" required placeholder="pcs/kg/liter/pack">
         </div>
         <div class="form-group">
             <label>Harga</label>
@@ -92,6 +98,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="form-group">
             <label>Tanggal Masuk</label>
             <input type="date" name="tanggal_masuk" required value="<?= date('Y-m-d'); ?>">
+        </div>
+         <div class="form-group">
+            <label>Deskripsi</label>
+            <textarea name="deskripsi" rows="3"></textarea>
         </div>
         <div class="form-group">
             <a href="index.php" class="btn btn-kembali">Kembali</a>

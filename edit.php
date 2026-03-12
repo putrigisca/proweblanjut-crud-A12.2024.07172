@@ -85,16 +85,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="text" name="nama_barang" value="<?= htmlspecialchars($barang['nama_barang']); ?>" required>
         </div>
         <div class="form-group">
+            <label>Warna</label>
+            <input type="text" name="warna" value="<?= htmlspecialchars($barang['warna'] ?? ''); ?>">
+        </div>
+        <div class="form-group">
             <label>Kategori</label>
             <select name="kategori" required>
                 <option value="Bahan Baku" <?= $barang['kategori'] == 'Bahan Baku' ? 'selected' : ''; ?>>Bahan Baku</option>
                 <option value="Peralatan" <?= $barang['kategori'] == 'Peralatan' ? 'selected' : ''; ?>>Peralatan</option>
                 <option value="Kemasan" <?= $barang['kategori'] == 'Kemasan' ? 'selected' : ''; ?>>Kemasan</option>
             </select>
-        </div>
-        <div class="form-group">
-            <label>Deskripsi</label>
-            <textarea name="deskripsi" rows="3"><?= htmlspecialchars($barang['deskripsi']); ?></textarea>
         </div>
         <div class="form-group">
             <label>Jumlah</label>
@@ -111,6 +111,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="form-group">
             <label>Tanggal Masuk</label>
             <input type="date" name="tanggal_masuk" value="<?= htmlspecialchars($barang['tanggal_masuk']); ?>" required>
+        </div>
+        <div class="form-group">
+            <label>Deskripsi</label>
+            <textarea name="deskripsi" rows="3"><?= htmlspecialchars($barang['deskripsi']); ?></textarea>
         </div>
         <div class="form-group">
             <a href="index.php" class="btn btn-kembali">Kembali</a>

@@ -32,7 +32,7 @@ if (isset($_GET['cari'])) {
             <a href="tambah.php" class="btn-tambah"><i class="fas fa-plus"></i> Tambah Barang Baru</a>
         </div>
 
-    `<form action="index.php" method="GET" class="search-form">
+    <form action="index.php" method="GET" class="search-form">
         <input type="text" name="cari" placeholder="Cari nama, kode, jenis..." 
             class="search-input" value="<?= htmlspecialchars($keyword ?? ''); ?>">
         
