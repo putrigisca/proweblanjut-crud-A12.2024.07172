@@ -29,8 +29,7 @@ if (!$barang) {
 <body>
 <div class="container container-form">
     <h2>Detail Barang</h2>
-    <hr>
-    
+
     <div class="form-grid-2">
     <div class="form-group-card">
         <label>Kode Barang</label>
