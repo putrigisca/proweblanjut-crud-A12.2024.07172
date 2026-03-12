@@ -31,52 +31,54 @@ if (!$barang) {
     <h2>Detail Barang</h2>
     <hr>
     
-    <div class="form-group">
+    <div class="form-grid-2">
+    <div class="form-group-card">
         <label>Kode Barang</label>
         <input type="text" value="<?= htmlspecialchars($barang['kode_barang']); ?>" readonly>
     </div>
     
-    <div class="form-group">
+    <div class="form-group-card">
         <label>Nama Barang</label>
         <input type="text" value="<?= htmlspecialchars($barang['nama_barang']); ?>" readonly>
     </div>
     
-    <div class="form-group">
+    <div class="form-group-card">
             <label>Warna</label>
             <input type="text" value="<?= htmlspecialchars($barang['warna'] ?? 'Tidak ada'); ?>" readonly>
     </div>
 
-    <div class="form-group">
+    <div class="form-group-card">
         <label>Kategori</label>
         <input type="text" value="<?= htmlspecialchars($barang['kategori']); ?>" readonly>
     </div>
     
-    <div class="form-group">
+    <div class="form-group-card">
         <label>Jumlah</label>
         <input type="text" value="<?= htmlspecialchars($barang['jumlah']); ?>" readonly>
     </div>
     
-    <div class="form-group">
+    <div class="form-group-card">
         <label>Satuan</label>
         <input type="text" value="<?= htmlspecialchars($barang['satuan']); ?>" readonly>
     </div>
     
-    <div class="form-group">
+    <div class="form-group-card">
         <label>Harga</label>
         <input type="text" value="Rp <?= number_format($barang['harga'], 0, ',', '.'); ?>" readonly>
     </div>
     
-    <div class="form-group">
+    <div class="form-group-card">
         <label>Tanggal Masuk</label>
         <input type="text" value="<?= htmlspecialchars($barang['tanggal_masuk']); ?>" readonly>
     </div>
+</div>
     
-    <div class="form-group">
+    <div class="form-group form-group-full">
         <label>Deskripsi</label>
         <textarea rows="3" readonly><?= htmlspecialchars($barang['deskripsi']); ?></textarea>
     </div>
-    
-    <div class="form-group">
+
+    <div class="action-buttons">
         <a href="index.php" class="btn btn-kembali">Kembali</a>
         <a href="edit.php?id=<?= $barang['id']; ?>" class="btn-simpan btn-warning">Edit Data</a>
     </div>
