@@ -72,15 +72,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="form-group">
             <label>Kategori</label>
             <select name="kategori" required>
-                <option value="Bahan Baku">Pilih Kategori</option>
+                <option value="">Pilih Kategori</option>
                 <option value="Bahan Baku">Bahan Baku</option>
-                <option value="Bahan Baku">Makanan</option>
-                <option value="Bahan Baku">Minuman</option>
-                <option value="Peralatan">Alat tulis</option>
-                <option value="Peralatan">Elektronik</option>
-                <option value="Peralatan">Peralatan Olahraga</option>
+                <option value="Makanan">Makanan</option>
+                <option value="Minuman">Minuman</option>
+                <option value="Alat tulis">Alat tulis</option>
+                <option value="Elektronik">Elektronik</option>
+                <option value="Peralatan Olahraga">Peralatan Olahraga</option>
                 <option value="Kemasan">Kemasan</option>
-                <option value="Kemasan">Lainnya</option>
+                <option value="Lainnya">Lainnya</option>
             </select>
         </div>
         <div class="form-group">
