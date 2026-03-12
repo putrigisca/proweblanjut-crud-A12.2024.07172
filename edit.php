@@ -92,7 +92,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label>Kategori</label>
             <select name="kategori" required>
                 <option value="Bahan Baku" <?= $barang['kategori'] == 'Bahan Baku' ? 'selected' : ''; ?>>Bahan Baku</option>
-                <option value="Peralatan" <?= $barang['kategori'] == 'Peralatan' ? 'selected' : ''; ?>>Peralatan</option>
+                <option value="Makanan" <?= $barang['kategori'] == 'Makanan' ? 'selected' : ''; ?>>Makanan</option>
+                <option value="Minuman" <?= $barang['kategori'] == 'Minuman' ? 'selected' : ''; ?>>Minuman</option>
+                <option value="Alat tulis" <?= $barang['kategori'] == 'Alat tulis' ? 'selected' : ''; ?>>Alat tulis</option>
+                <option value="Elektronik" <?= $barang['kategori'] == 'Elektronik' ? 'selected' : ''; ?>>Elektronik</option>
+                <option value="Peralatan Olahraga" <?= $barang['kategori'] == 'Peralatan Olahraga' ? 'selected' : ''; ?>>Peralatan Olahraga</option>
                 <option value="Kemasan" <?= $barang['kategori'] == 'Kemasan' ? 'selected' : ''; ?>>Kemasan</option>
             </select>
         </div>
