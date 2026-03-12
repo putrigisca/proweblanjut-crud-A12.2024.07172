@@ -76,19 +76,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 
     <form method="POST">
-        <div class="form-group">
+    <div class="form-grid-2">
+        <div class="form-group-card">
             <label>Kode Barang</label>
             <input type="text" name="kode_barang" value="<?= htmlspecialchars($barang['kode_barang']); ?>" readonly>
         </div>
-        <div class="form-group">
+        <div class="form-group-card">
             <label>Nama Barang</label>
             <input type="text" name="nama_barang" value="<?= htmlspecialchars($barang['nama_barang']); ?>" required>
         </div>
-        <div class="form-group">
+        <div class="form-group-card">
             <label>Warna</label>
-            <input type="text" name="warna" value="<?= htmlspecialchars($barang['warna'] ?? ''); ?>">
+            <select name="warna"  required>
+                <option value="">Pilih Warna</option>
+                <option value="Merah" <?= $barang['warna'] == 'Merah' ? 'selected' : ''; ?>>Merah</option>
+                <option value="Biru" <?= $barang['warna'] == 'Biru' ? 'selected' : ''; ?>>Biru</option>
+                <option value="Hijau" <?= $barang['warna'] == 'Hijau' ? 'selected' : ''; ?>>Hijau</option>
+                <option value="Kuning" <?= $barang['warna'] == 'Kuning' ? 'selected' : ''; ?>>Kuning</option>
+                <option value="Hitam" <?= $barang['warna'] == 'Hitam' ? 'selected' : ''; ?>>Hitam</option>
+                <option value="Putih" <?= $barang['warna'] == 'Putih' ? 'selected' : ''; ?>>Putih</option>
+                <option value="Abu-abu" <?= $barang['warna'] == 'Abu-abu' ? 'selected' : ''; ?>>Abu-abu</option>
+                <option value="Coklat" <?= $barang['warna'] == 'Coklat' ? 'selected' : ''; ?>>Coklat</option>
+                <option value="Ungu" <?= $barang['warna'] == 'Ungu' ? 'selected' : ''; ?>>Ungu</option>
+                <option value="Pink" <?= $barang['warna'] == 'Pink' ? 'selected' : ''; ?>>Pink</option>
+                <option value="Lainnya" <?= $barang['warna'] == 'Lainnya' ? 'selected' : ''; ?>>Lainnya</option>
+    </select>
         </div>
-        <div class="form-group">
+        <div class="form-group-card">
             <label>Kategori</label>
             <select name="kategori" required>
                 <option value="Bahan Baku" <?= $barang['kategori'] == 'Bahan Baku' ? 'selected' : ''; ?>>Bahan Baku</option>
@@ -100,27 +114,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <option value="Kemasan" <?= $barang['kategori'] == 'Kemasan' ? 'selected' : ''; ?>>Kemasan</option>
             </select>
         </div>
-        <div class="form-group">
+        <div class="form-group-card">
             <label>Jumlah</label>
             <input type="number" name="jumlah" value="<?= htmlspecialchars($barang['jumlah']); ?>" required>
         </div>
-        <div class="form-group">
+        <div class="form-group-card">
             <label>Satuan</label>
             <input type="text" name="satuan" value="<?= htmlspecialchars($barang['satuan']); ?>" required placeholder="pcs/kg/liter">
         </div>
-        <div class="form-group">
+        <div class="form-group-card">
             <label>Harga</label>
             <input type="number" name="harga" value="<?= htmlspecialchars($barang['harga']); ?>" required>
         </div>
-        <div class="form-group">
+        <div class="form-group-card">
             <label>Tanggal Masuk</label>
             <input type="date" name="tanggal_masuk" value="<?= htmlspecialchars($barang['tanggal_masuk']); ?>" required>
         </div>
-        <div class="form-group">
+    </div>
+        <div class="form-group form-group-full">
             <label>Deskripsi</label>
             <textarea name="deskripsi" rows="3"><?= htmlspecialchars($barang['deskripsi']); ?></textarea>
         </div>
-        <div class="form-group">
+        <div class="action-buttons">
             <a href="index.php" class="btn btn-kembali">Kembali</a>
             <button type="submit" class="btn btn-simpan">Simpan Perubahan</button>
         </div>
