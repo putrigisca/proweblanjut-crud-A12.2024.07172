@@ -11,6 +11,7 @@ $kode_otomatis = "BRG-" . str_pad($next, 3, '0', STR_PAD_LEFT);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $kode_barang   = $_POST['kode_barang'];
     $nama_barang   = $_POST['nama_barang'];
+    $warna         = $_POST['warna'];
     $kategori      = $_POST['kategori'];
     $deskripsi     = $_POST['deskripsi'];
     $jumlah        = $_POST['jumlah'];
@@ -19,13 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tanggal_masuk = $_POST['tanggal_masuk'];
 
     try {
-        $sql = "INSERT INTO barang (kode_barang, nama_barang, kategori, deskripsi, jumlah, satuan, harga, tanggal_masuk) 
-                VALUES (:kode_barang, :nama_barang, :kategori, :deskripsi, :jumlah, :satuan, :harga, :tanggal_masuk)";
+        $sql = "INSERT INTO barang (kode_barang, nama_barang, warna ,kategori, deskripsi, jumlah, satuan, harga, tanggal_masuk) 
+                VALUES (:kode_barang, :nama_barang, :warna, :kategori, :deskripsi, :jumlah, :satuan, :harga, :tanggal_masuk)";
         
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             ':kode_barang'   => $kode_barang,
             ':nama_barang'   => $nama_barang,
+            ':warna'         => $warna,
             ':kategori'      => $kategori,
             ':deskripsi'     => $deskripsi,
             ':jumlah'        => $jumlah,
@@ -59,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="POST">
         <div class="form-grid-2">
         <div class="form-group-card">
-            <label>Kode Barang (Otomatis)</label>
+            <label> Kode Barang </label>
             <input type="text" name="kode_barang" value="<?= $kode_otomatis; ?>" readonly>
         </div>
         <div class="form-group-card">
