@@ -20,8 +20,6 @@ if (isset($_GET['cari'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem Manajemen Inventaris Barang</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel ="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -29,21 +27,17 @@ if (isset($_GET['cari'])) {
     <div class="container">
         <div class="header-container">
             <h2>Daftar Inventaris Barang</h2>
-            <a href="tambah.php" class="btn-tambah"><i class="fas fa-plus"></i> Tambah Barang Baru</a>
+            <a href="tambah.php" class="btn-tambah">Tambah Barang Baru</a>
         </div>
 
     <form action="index.php" method="GET" class="search-form">
-        <input type="text" name="cari" placeholder="Cari nama, kode, jenis..." 
-            class="search-input" value="<?= htmlspecialchars($keyword ?? ''); ?>">
-        
-        <button type="submit" class="btn-search">
-            <i class="fas fa-search"></i> Cari
-        </button>
-        
-        <a href="index.php" class="btn-reset" title="Reset Pencarian">
-            <i class="fas fa-undo-alt"></i> Reset
-        </a>
-    </form>
+        <input type="text" name="cari" placeholder="Cari nama, kode, kategori..." 
+        class="search-input" value="<?= htmlspecialchars($keyword ?? ''); ?>">
+    
+    <button type="submit" class="btn-search">Cari</button>
+    
+    <a href="index.php" class="btn-reset" title="Reset Pencarian">Reset</a>
+</form>
 
         <table>
             <thead>
@@ -51,7 +45,7 @@ if (isset($_GET['cari'])) {
                     <th>No</th>
                     <th>Kode</th>
                     <th>Nama Barang</th>
-                    <th>Jenis Barang</th>
+                    <th>Kategori</th>
                     <th>Stok</th>
                     <th>Harga</th>
                     <th>Tanggal Masuk</th>
@@ -77,16 +71,10 @@ if (isset($_GET['cari'])) {
                     <td class="harga">Rp <?= number_format($row['harga'], 0, ',', '.'); ?></td>
                     <td><?= date('d M Y', strtotime($row['tanggal_masuk'])); ?></td>
                     <td>
-                        <div class="action-group">
-                            <a href="detail.php?id=<?= $row['id']; ?>" class="btn-icon btn-detail" title="Detail">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <a href="edit.php?id=<?= $row['id']; ?>" class="btn-icon btn-edit" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a href="hapus.php?id=<?= $row['id']; ?>" class="btn-icon btn-hapus" onclick="return confirm('Apakah kamu yakin ingin menghapus data ini?');" title="Hapus">
-                                <i class="fas fa-trash"></i>
-                            </a>
+                        <div class="action-group" style="justify-content: center;">
+                            <a href="detail.php?id=<?= $row['id']; ?>" class="btn-aksi btn-detail">Detail</a>
+                            <a href="edit.php?id=<?= $row['id']; ?>" class="btn-aksi btn-edit">Edit</a>
+                            <a href="hapus.php?id=<?= $row['id']; ?>" class="btn-aksi btn-hapus" onclick="return confirm('Apakah kamu yakin ingin menghapus data ini?');">Hapus</a>
                         </div>
                     </td>
                 </tr>
@@ -94,7 +82,7 @@ if (isset($_GET['cari'])) {
                 } 
                 
                 if ($stmt->rowCount() == 0) {
-                    echo "<tr><td colspan='9' style='text-align:center; padding: 40px; color: #94a3b8;'><i class='fas fa-box-open fa-2x' style='margin-bottom:10px;'></i><br>Belum ada data barang.</td></tr>";
+                    echo "<tr><td colspan='8' style='text-align:center; padding: 40px; color: #94a3b8;'><br>Belum ada data barang.</td></tr>";
                 }
                 ?>
             </tbody>
