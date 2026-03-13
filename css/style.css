@@ -1,7 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-
-body { 
-    font-family: 'Plus Jakarta Sans', sans-serif; 
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background: linear-gradient(135deg, #fff0f3 0%, #ffe8e0 50%, #fff5eb 100%);
     min-height: 100vh;
     margin: 0; 
@@ -78,21 +76,6 @@ h2::after {
     border: none;         
 }
 
-.btn-tambah::before, .btn-simpan::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-    transition: 0.5s;
-}
-
-.btn-tambah:hover::before, .btn-simpan:hover::before {
-    left: 100%;
-}
-
 .btn-kembali {
     background: linear-gradient(135deg, #f8f0f0, #fff0f0);
     color: #8b5a5a; 
@@ -109,7 +92,8 @@ h2::after {
     align-items: center;    
     height: 45px;            
     margin-right: 10px;
-    box-sizing: border-box;  
+    box-sizing: border-box; 
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.15); 
 }
 
 .btn-tambah:hover, .btn-simpan:hover { 
@@ -121,6 +105,8 @@ h2::after {
     background: linear-gradient(135deg, #ffdede, #fff0f0);
     border-color: #ff6b6b;
     color: #ff6b6b;
+    transform: translateY(-3px); 
+    box-shadow: 0 12px 35px rgba(255, 107, 107, 0.30);
  }
 
 .btn-tambah:active, .btn-simpan:active, .btn-kembali:active { 
@@ -141,7 +127,7 @@ input, select, textarea {
     padding: 14px 18px; 
     border: 2px solid #ffe5e0; 
     border-radius: 14px; 
-    font-family: 'Plus Jakarta Sans', sans-serif; 
+    font-family: inherit; 
     font-size: 14px; 
     transition: all 0.3s ease; 
     box-sizing: border-box;
@@ -163,18 +149,6 @@ input[readonly] {
     border-color: #ffe5e0;  
 }
 
-.detail-text p { 
-    font-size: 15px; 
-    border-bottom: 1px solid #ffe5e0; 
-    padding-bottom: 10px; 
-    margin-bottom: 15px; }
-
-.detail-text strong { 
-    display: inline-block; 
-    width: 140px; 
-    color: #8b5a5a; 
-    font-weight: 600; }
-
 table { 
     width: 100%; 
     border-collapse: collapse; 
@@ -188,19 +162,11 @@ th {
     color: white;
     padding: 18px;
     text-align: left; 
-    font-size: 12px; 
+    font-size: 13px; 
     text-transform: uppercase; 
     letter-spacing: 1px; 
     font-weight: 600;
     white-space: nowrap;
-}
-
-th:first-child {
-    border-top-left-radius: 16px;
-}
-
-th:last-child {
-    border-top-right-radius: 16px;
 }
 
 td { 
@@ -211,21 +177,10 @@ td {
     transition: all 0.2s ease; 
     background : #fff; 
     white-space: nowrap;
-    background: linear-gradient(135deg, #fff5f3, #fff8f5)
 }
 
 tr:last-child td {
     border-bottom: none;
-}
-
-tr:hover td:first-child {
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
-}
-
-tr:hover td:last-child {
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
 }
 
 .harga { 
@@ -243,16 +198,16 @@ tr:hover td:last-child {
     gap: 10px;
  }
 
-.btn-icon { 
-    width: 40px;
-    height: 40px; 
-    display: flex; 
+.btn-aksi{ 
+    padding: 8px 14px;
+    display: inline-flex; 
     justify-content: center;
     align-items: center; 
-    border-radius: 12px; 
+    border-radius: 8px; 
     text-decoration: none; 
-    font-size: 15px; 
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+    font-size: 12px;
+    font-weight: 600; 
+    transition: all 0.3s ease;
 }
 
 .btn-detail { 
@@ -291,10 +246,6 @@ tr:hover td:last-child {
     box-shadow: 0 8px 20px rgba(214, 48, 49, 0.4); 
 }
 
-.btn-icon:active { 
-    transform: scale(0.9); 
-}
-
 .search-form {
     margin-bottom: 25px;
     display: flex;
@@ -311,16 +262,6 @@ tr:hover td:last-child {
     border: 2px solid #ffe5e0;
     border-radius: 12px;
     width: 280px;
-    font-size: 14px;
-    font-family: inherit;
-    outline: none;
-    background: #fff;
-    transition: all 0.3s ease;
-}
-
-.search-input:focus {
-    border-color: #ff8e53;
-    box-shadow:  0 0 0 4px rgba(255, 142, 83, 0.15);
 }
 
 .btn-search {
@@ -331,16 +272,21 @@ tr:hover td:last-child {
     border-radius: 12px;
     cursor: pointer;
     font-weight: 600;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
 }
 
+.btn-search:hover {
+    transform: translateY(-3px); 
+    box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+}
+
+.btn-search:active {
+    transform: translateY(2px);
+    box-shadow: none;
+}
 .btn-reset {
-    padding: 12px 22px;
+    padding: 10px 22px;
     background: linear-gradient(135deg, #fff5f3, #fff);
     color: #8b5a5a;
     text-decoration: none;
@@ -348,103 +294,20 @@ tr:hover td:last-child {
     font-size: 14px;
     font-weight: 600;
     border: 2px solid #ffe5e0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
     transition: all 0.3s ease;
-}
-
-.btn-search:hover {
-    transform: translateY(-3px); 
-    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.45);
-    background: linear-gradient(135deg, #ff8585, #ffb732);
+    box-shadow: 0 4px 15px rgba(139, 90, 90, 0.05);
 }
 
 .btn-reset:hover {
     transform: translateY(-3px); 
-    box-shadow: 0 6px 20px rgba(255, 142, 83, 0.2);
-    border-color: #ff8e53;
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.2);
+    border-color: #ff6b6b;
     color: #ff6b6b;
 }
 
-.btn-search:active, .btn-reset:active {
-    transform: translateY(0); 
-}
-
-tbody tr td:only-child {
-    text-align: center;
-    padding: 60px;
-}
-
-tbody tr td:only-child i {
-    color: #ffb8b8;
-    margin-bottom: 15px;
-}
-
-tbody tr td:only-child span {
-    color: #a88080;
-    font-size: 16px;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-tbody tr {
-    animation: fadeInUp 0.4s ease forwards;
-}
-
-tbody tr:nth-child(1) { animation-delay: 0.05s; }
-tbody tr:nth-child(2) { animation-delay: 0.1s; }
-tbody tr:nth-child(3) { animation-delay: 0.15s; }
-tbody tr:nth-child(4) { animation-delay: 0.2s; }
-tbody tr:nth-child(5) { animation-delay: 0.25s; }
-
-@media (max-width: 768px) {
-    body {
-        padding: 20px;
-    }
-    
-    .container {
-        padding: 20px;
-        border-radius: 16px;
-    }
-    
-    .header-container {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-    
-    h2::after {
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    
-    .search-form {
-        flex-direction: column;
-    }
-    
-    .search-input {
-        width: 100%;
-    }
-    
-    .btn-search, .btn-reset {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    table {
-        display: block;
-        overflow-x: auto;
-    }
+.btn-reset:active {
+    transform: translateY(2px);
+    box-shadow: none;
 }
 
 .form-grid-2 {
@@ -461,52 +324,16 @@ tbody tr:nth-child(5) { animation-delay: 0.25s; }
     padding: 16px;
 }
 
-.form-group-card label {
-    display: block;
-    font-size: 13px;
-    color: #475569;
-    margin-bottom: 10px;
-    font-weight: 600;
-}
-
-.input-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.input-wrapper i {
-    position: absolute;
-    left: 15px;
-    color: #ff6b6b;
-    font-size: 16px;
-    z-index: 10;
-}
-
-.input-wrapper input,
-.input-wrapper select,
-.input-wrapper textarea {
-    width: 100%;
-    padding: 12px 15px 12px 45px; 
-    background: #fffaf8;
-    border: none;
-    border-radius: 10px;
-}
-
-@media (max-width: 768px) {
-    .form-grid-2 { grid-template-columns: 1fr; } 
-}
-
-.form-group-full {
-    margin-bottom: 25px;
-}
-
-.wrapper-textarea {
-    align-items: flex-start;
-}
-
 .action-buttons {
     display: flex;
     gap: 15px;
     margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .form-grid-2 { grid-template-columns: 1fr; } 
+    .header-container { flex-direction: column; gap: 15px; }
+    .search-form { flex-direction: column; }
+    .search-input, .btn-search, .btn-reset { width: 100%; text-align: center; justify-content: center; }
+    table { display: block; overflow-x: auto; }
 }
