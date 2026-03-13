@@ -21,6 +21,7 @@ if (!$barang) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $kode_barang   = $_POST['kode_barang'];
     $nama_barang   = $_POST['nama_barang'];
+    $warna         = $_POST['warna'];
     $kategori      = $_POST['kategori'];
     $deskripsi     = $_POST['deskripsi'];
     $jumlah        = $_POST['jumlah'];
@@ -31,7 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $sql = "UPDATE barang SET 
                 kode_barang = :kode_barang, 
-                nama_barang = :nama_barang, 
+                nama_barang = :nama_barang,
+                warna = :warna,
                 kategori = :kategori, 
                 deskripsi = :deskripsi, 
                 jumlah = :jumlah, 
@@ -44,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([
             ':kode_barang'   => $kode_barang,
             ':nama_barang'   => $nama_barang,
+            ':warna'         => $warna,
             ':kategori'      => $kategori,
             ':deskripsi'     => $deskripsi,
             ':jumlah'        => $jumlah,
