@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div class="form-group-card">
             <label>Satuan</label>
-            <input type="text" name="satuan" required placeholder="pcs/kg/liter/pack">
+            <input type="text" name="satuan" required placeholder="pcs/kg/liter/pack/lusin/lainnya">
         </div>
         <div class="form-group-card">
             <label>Harga</label>
