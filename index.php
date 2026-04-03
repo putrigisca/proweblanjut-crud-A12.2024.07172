@@ -1,5 +1,26 @@
 <?php
-require_once 'koneksi.php';
+session_start(); 
+require_once 'koneksi.php'; 
+
+if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
+    if (isset($_COOKIE["username"])) {
+        $stmt_cookie = $pdo->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt_cookie->execute([':username' => $_COOKIE["username"]]);
+        $user_cookie = $stmt_cookie->fetch(PDO::FETCH_ASSOC);
+
+        if ($user_cookie) {
+            $_SESSION['login'] = true;
+            $_SESSION['nama_lengkap'] = $user_cookie['nama_lengkap'];
+            $_SESSION['username'] = $user_cookie['username'];
+        } else {
+            header("Location: login.php");
+            exit();
+        }
+    } else {
+        header("Location: login.php");
+        exit();
+    }
+}
 
 $keyword = '';
 if (isset($_GET['cari'])) {
@@ -20,23 +41,34 @@ if (isset($_GET['cari'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem Manajemen Inventaris Barang</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel ="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <div class="container">
-        <div class="header-container">
-            <h2>Daftar Inventaris Barang</h2>
-            <a href="tambah.php" class="btn-tambah">Tambah Barang Baru</a>
+<div class="container">
+        
+        <div class="header-container" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ffe5e0; padding-bottom: 20px; margin-bottom: 25px;">
+            <div>
+                <h2 style="margin: 0; border: none;">Daftar Inventaris Barang</h2>
+                <p style="margin: 5px 0 0 0; color: #64748b; font-size: 14px;">
+                    Selamat datang, <strong style="color: #ff8e53;"><?= htmlspecialchars($_SESSION['nama_lengkap']); ?></strong> 👋
+                </p>
+            </div>
+            
+            <div style="display: flex; gap: 10px;">
+                <a href="tambah.php" class="btn-tambah"><i class="fas fa-plus"></i> Tambah Barang Baru</a>
+                <a href="logout.php" class="btn-kembali" style="margin: 0; gap: 5px; border-color: #ff7675; color: #d63031;"><i class="fas fa-sign-out-alt"></i>  Logout</a>
+            </div>
         </div>
 
     <form action="index.php" method="GET" class="search-form">
         <input type="text" name="cari" placeholder="Cari nama, kode, kategori..." 
         class="search-input" value="<?= htmlspecialchars($keyword ?? ''); ?>">
     
-    <button type="submit" class="btn-search">Cari</button>
+    <button type="submit" class="btn-search"><i class="fas fa-search"></i> Cari</button>
     
-    <a href="index.php" class="btn-reset" title="Reset Pencarian">Reset</a>
+    <a href="index.php" class="btn-reset" title="Reset Pencarian"><i class="fas fa-undo-alt"></i> Reset</a>
 </form>
 
         <table>
@@ -72,9 +104,15 @@ if (isset($_GET['cari'])) {
                     <td><?= date('d M Y', strtotime($row['tanggal_masuk'])); ?></td>
                     <td>
                         <div class="action-group" style="justify-content: center;">
-                            <a href="detail.php?id=<?= $row['id']; ?>" class="btn-aksi btn-detail">Detail</a>
-                            <a href="edit.php?id=<?= $row['id']; ?>" class="btn-aksi btn-edit">Edit</a>
-                            <a href="hapus.php?id=<?= $row['id']; ?>" class="btn-aksi btn-hapus" onclick="return confirm('Apakah kamu yakin ingin menghapus data ini?');">Hapus</a>
+                            <a href="detail.php?id=<?= $row['id']; ?>" class="btn-icon btn-detail" title="Detail">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="edit.php?id=<?= $row['id']; ?>" class="btn-icon btn-edit" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="hapus.php?id=<?= $row['id']; ?>" class="btn-icon btn-hapus" onclick="return confirm('Apakah kamu yakin ingin menghapus data ini?');" title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </a>
                         </div>
                     </td>
                 </tr>
@@ -82,7 +120,7 @@ if (isset($_GET['cari'])) {
                 } 
                 
                 if ($stmt->rowCount() == 0) {
-                    echo "<tr><td colspan='8' style='text-align:center; padding: 40px; color: #94a3b8;'><br>Belum ada data barang.</td></tr>";
+                    echo "<tr><td colspan='8' style='text-align:center; padding: 40px; color: #94a3b8;'><i class='fas fa-box-open fa-2x' style='margin-bottom:10px;'></i><br>Belum ada data barang.</td></tr>";
                 }
                 ?>
             </tbody>
