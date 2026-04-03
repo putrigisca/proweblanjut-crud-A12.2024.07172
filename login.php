@@ -81,10 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     Logout berhasil! Sampai jumpa lagi. 👋
                 </div>
             <?php endif; ?>
-            <form method="POST" action="">
-                <div class="form-group">
-                    <label>Username</label>
-                    
+
             <form method="POST" action="">
                 <div class="form-group">
                     <label>Username</label>
