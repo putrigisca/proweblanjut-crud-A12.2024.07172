@@ -42,17 +42,6 @@ h2 {
     position: relative;
 }
 
-h2::after {
-    content: '';
-    position: absolute;
-    bottom: -12px;
-    left: 0;
-    width: 60px;
-    height: 4px;
-    background: linear-gradient(90deg, #ff6b6b, #ffa500);
-    border-radius: 2px;
-}
-
 .btn-tambah, .btn-simpan { 
     background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 50%, #ffa500 100%);
     color: white; 
@@ -73,7 +62,8 @@ h2::after {
     height: 45px; 
     height: 48px;            
     box-sizing: border-box;
-    border: none;         
+    border: none; 
+    gap :  8px;        
 }
 
 .btn-kembali {
@@ -198,16 +188,16 @@ tr:last-child td {
     gap: 10px;
  }
 
-.btn-aksi{ 
-    padding: 8px 14px;
-    display: inline-flex; 
-    justify-content: center;
+.btn-icon{ 
+    width: 40px; 
+    height: 40px; 
+    display: flex; 
+    justify-content: center; 
     align-items: center; 
-    border-radius: 8px; 
+    border-radius: 12px; 
     text-decoration: none; 
-    font-size: 12px;
-    font-weight: 600; 
-    transition: all 0.3s ease;
+    font-size: 15px; 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
 }
 
 .btn-detail { 
@@ -336,4 +326,170 @@ tr:last-child td {
     .search-form { flex-direction: column; }
     .search-input, .btn-search, .btn-reset { width: 100%; text-align: center; justify-content: center; }
     table { display: block; overflow-x: auto; }
+}
+ * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fff0f3 0%, #ffe8e0 50%, #fff5eb 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .register-container, .login-container{
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 900px;
+            display: flex; 
+            overflow: hidden;
+            min-height: 600px; 
+        }
+        
+        .register-left, .login-left {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: #fff;
+            overflow-y: auto; /* Scroll kalau layar kependekan */
+        }
+
+        .header-text h1 {
+            color: #333;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        
+        .header-text p {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .register-right, .login-right {
+            flex: 1;
+            background: linear-gradient(135deg, #FF8C00, #FF69B4);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .register-right img, .login-right img {
+            width: 85%;
+            max-width: 350px;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
+            transition: transform 0.3s ease;
+        }
+        
+        .register-right img:hover, .login-right img:hover{
+            transform: scale(1.05);
+        }
+
+        .register-right h2, .login-right h2 { 
+            font-size: 26px; margin-bottom: 10px; }
+
+        .register-right p, .login-right p { 
+            font-size: 14px; opacity: 0.8; }
+
+        .form-group { margin-bottom: 15px; }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #444;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            background: #f4f7fc;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #FF69B4;
+            background: #fff;
+        }
+        
+        .btn-register, .btn-login {
+            background: linear-gradient(135deg, #FF69B4, #FF8C00); ;
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        
+        .btn-register:hover, .btn-login:hover {
+            background: linear-gradient(135deg, #FF8C00, #FF69B4);
+            box-shadow: 0 5px 15px rgba(0, 51, 102, 0.3);
+        }
+
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .error-message {
+            background-color: #fee;
+            color: #c33;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            border-left: 4px solid #c33;
+        }
+
+        .login-link,.register-link{
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        .login-link a, .register-link a {
+            color: #FF69B4;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .register-container, .login-container  { flex-direction: column-reverse; }
+            .register-right,  .login-right { padding: 30px; min-height: 200px; }
+            .register-right img, .login-right img { width: 120px; }
+        }
+
+        .register-right h2::after {
+         display: none;
 }
