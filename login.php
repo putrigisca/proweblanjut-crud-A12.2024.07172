@@ -75,7 +75,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <?php echo $error; ?>
                 </div>
             <?php endif; ?>
-
+            
+            <?php if(isset($_GET['pesan']) && $_GET['pesan'] == 'logout'): ?>
+                <div style="background-color: #dcfce3; color: #166534; padding: 10px; border-radius: 6px; margin-bottom: 15px; font-size: 13px; border-left: 4px solid #166534;">
+                    Logout berhasil! Sampai jumpa lagi. 👋
+                </div>
+            <?php endif; ?>
+            <form method="POST" action="">
+                <div class="form-group">
+                    <label>Username</label>
+                    
             <form method="POST" action="">
                 <div class="form-group">
                     <label>Username</label>
