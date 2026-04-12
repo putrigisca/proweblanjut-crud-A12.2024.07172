@@ -70,12 +70,13 @@ if (isset($_GET['cari'])) {
     
     <a href="index.php" class="btn-reset" title="Reset Pencarian"><i class="fas fa-undo-alt"></i> Reset</a>
 </form>
-
+    <div class>
         <table>
             <thead>
                 <tr>
                     <th>No</th>
                     <th>Kode</th>
+                    <th>Foto</th>
                     <th>Nama Barang</th>
                     <th>Kategori</th>
                     <th>Stok</th>
@@ -93,6 +94,13 @@ if (isset($_GET['cari'])) {
                 <tr>
                     <td style="color: #94a3b8; font-weight: 600;"><?= $no++; ?></td>
                     <td class="kode"><?= htmlspecialchars($row['kode_barang']); ?></td>
+                    <td>
+                        <?php if (!empty($row['foto'])): ?>
+                            <img src="uploads/<?= htmlspecialchars($row['foto']); ?>" alt="Foto Barang" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                        <?php else: ?>
+                            <span style="background: #f1f5f9; color: #94a3b8; padding: 4px 8px; border-radius: 4px; font-size: 11px;">No Image</span>
+                        <?php endif; ?>
+                    </td>
                     <td style="font-weight: 600; color: #1e293b;"><?= htmlspecialchars($row['nama_barang']); ?></td>
                     <td>
                         <span style="background: #f1f5f9; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500;">
@@ -120,7 +128,7 @@ if (isset($_GET['cari'])) {
                 } 
                 
                 if ($stmt->rowCount() == 0) {
-                    echo "<tr><td colspan='8' style='text-align:center; padding: 40px; color: #94a3b8;'><i class='fas fa-box-open fa-2x' style='margin-bottom:10px;'></i><br>Belum ada data barang.</td></tr>";
+                    echo "<tr><td colspan='9' style='text-align:center; padding: 40px; color: #94a3b8;'><i class='fas fa-box-open fa-2x' style='margin-bottom:10px;'></i><br>Belum ada data barang.</td></tr>";
                 }
                 ?>
             </tbody>
