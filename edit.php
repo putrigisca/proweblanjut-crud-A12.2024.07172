@@ -28,10 +28,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $satuan        = $_POST['satuan'];
     $harga         = $_POST['harga'];
     $tanggal_masuk = $_POST['tanggal_masuk'];
+ 
+    $nama_foto_baru = $barang['foto'];
+    if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
+        $fileName = $_FILES['foto']['name'];
+        $fileSize = $_FILES['foto']['size'];
+        $tmpName  = $_FILES['foto']['tmp_name'];
 
+        $validExtensions = ['jpg', 'jpeg', 'png'];
+        $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+        if (!in_array($fileExt, $validExtensions)) {
+            $error_message = "Gagal: Ekstensi file hanya boleh JPG, JPEG, atau PNG.";
+        } 
+        elseif ($fileSize > 1000000) { // Batas 1 MB sesuai modul
+            $error_message = "Gagal Upload Foto: Ukuran foto maksimal 1 MB.";
+        } 
+        else {
+            $nama_foto_baru = uniqid() . '.' . $fileExt; 
+            move_uploaded_file($tmpName, 'uploads/' . $nama_foto_baru);
+        }
+    }
+    if (!isset($error_message)){
     try {
         $sql = "UPDATE barang SET 
                 kode_barang = :kode_barang, 
+                foto = :foto,
                 nama_barang = :nama_barang,
                 warna = :warna,
                 kategori = :kategori, 
@@ -45,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             ':kode_barang'   => $kode_barang,
+            ':foto'           => $nama_foto_baru,
             ':nama_barang'   => $nama_barang,
             ':warna'         => $warna,
             ':kategori'      => $kategori,
@@ -61,6 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (PDOException $e) {
         $error_message = "Gagal mengupdate data: " . $e->getMessage();
     }
+}   
 }
 ?>
 
@@ -72,22 +96,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div class="container container-form">
+<div class="container">
     <h2>Edit Data Barang</h2>
     <?php if (isset($error_message)): ?>
         <p style="color:red;"><?= $error_message; ?></p>
     <?php endif; ?>
 
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
+    <div class="foto-center-wrapper">
+    <div class="form-group-card card-foto">
+        <label>Foto Barang</label>
+            <?php if (!empty($barang['foto']) && file_exists('uploads/' . $barang['foto'])): ?>
+                <img src="uploads/<?= htmlspecialchars($barang['foto']); ?>" alt="<?= htmlspecialchars($barang['nama_barang']); ?>" class="foto-detail">
+            <?php else: ?>
+                <div class="no-foto">
+                <p style="margin: 0;">Tidak ada foto untuk barang ini, silahkan unggah foto.</p>
+                </div>
+            <?php endif; ?>
+            <div style="margin-top: 10px;">
+            <label for="foto" style="font-size: 13px; color: #555;">Ganti/Unggah Foto Baru (Max 1MB) </label>
+            <input type="file" name="foto" id="foto" accept=".jpg, .jpeg, .png">
+        </div>
+    </div>
+    </div>
     <div class="form-grid-2">
         <div class="form-group-card">
             <label>Kode Barang</label>
             <input type="text" name="kode_barang" value="<?= htmlspecialchars($barang['kode_barang']); ?>" readonly>
         </div>
+
         <div class="form-group-card">
             <label>Nama Barang</label>
             <input type="text" name="nama_barang" value="<?= htmlspecialchars($barang['nama_barang']); ?>" required>
         </div>
+
         <div class="form-group-card">
             <label>Warna</label>
             <select name="warna"  required>
