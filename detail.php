@@ -27,15 +27,28 @@ if (!$barang) {
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div class="container container-form">
+<div class="container">
     <h2>Detail Barang</h2>
+
+    <div class="foto-center-wrapper">
+    <div class="form-group-card card-foto">
+        <label>Foto Barang</label>
+        <?php if (!empty($barang['foto']) && file_exists('uploads/' . $barang['foto'])): ?>
+            <img src="uploads/<?= htmlspecialchars($barang['foto']); ?>" alt="<?= htmlspecialchars($barang['nama_barang']); ?>" class="foto-detail">
+        <?php else: ?>
+            <div class="no-foto">
+            <p style="margin: 0;">Tidak ada foto untuk barang ini.</p>
+            </div>
+        <?php endif; ?>
+    </div>
+    </div>
 
     <div class="form-grid-2">
     <div class="form-group-card">
         <label>Kode Barang</label>
         <input type="text" value="<?= htmlspecialchars($barang['kode_barang']); ?>" readonly>
     </div>
-    
+
     <div class="form-group-card">
         <label>Nama Barang</label>
         <input type="text" value="<?= htmlspecialchars($barang['nama_barang']); ?>" readonly>
