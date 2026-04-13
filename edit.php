@@ -28,7 +28,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $satuan        = $_POST['satuan'];
     $harga         = $_POST['harga'];
     $tanggal_masuk = $_POST['tanggal_masuk'];
- 
+
+    $errors = [];
+    if (empty(trim($nama_barang))) {
+        $errors[] = "Nama barang tidak boleh kosong.";
+    }
+    if (!is_numeric($jumlah) || !is_numeric($harga)) {
+        $errors[] = "Jumlah dan Harga harus berupa angka.";
+    }
+
     $nama_foto_baru = $barang['foto'];
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
         $fileName = $_FILES['foto']['name'];
@@ -39,18 +47,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
         if (!in_array($fileExt, $validExtensions)) {
-            $error_message = "Gagal: Ekstensi file hanya boleh JPG, JPEG, atau PNG.";
+            $errors[] = "Gagal: Ekstensi file hanya boleh JPG, JPEG, atau PNG.";
         } 
         elseif ($fileSize > 1000000) { // Batas 1 MB sesuai modul
-            $error_message = "Gagal Upload Foto: Ukuran foto maksimal 1 MB.";
+            $errors[] = "Gagal Upload Foto: Ukuran foto maksimal 1 MB.";
         } 
         else {
             $nama_foto_baru = uniqid() . '.' . $fileExt; 
-            move_uploaded_file($tmpName, 'uploads/' . $nama_foto_baru);
+            $tmp_file_path = $tmpName;
         }
     }
-    if (!isset($error_message)){
+    if (empty($errors)) {
     try {
+        if (isset($tmp_file_path)) {
+                 move_uploaded_file($tmp_file_path, 'uploads/' . $nama_foto_baru);
+            }
         $sql = "UPDATE barang SET 
                 kode_barang = :kode_barang, 
                 foto = :foto,
@@ -82,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: index.php");
         exit;
     } catch (PDOException $e) {
-        $error_message = "Gagal mengupdate data: " . $e->getMessage();
+        $errors[] = "Gagal mengupdate data: " . $e->getMessage();
     }
 }   
 }
@@ -98,8 +109,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 <div class="container">
     <h2>Edit Data Barang</h2>
-    <?php if (isset($error_message)): ?>
-        <p style="color:red;"><?= $error_message; ?></p>
+    <?php if (!empty($errors)): ?>
+            <div style="background-color: #fee2e2; color: #991b1b; padding: 15px 20px; border-radius: 8px; border-left: 6px solid #dc2626; margin-bottom: 20px;">
+                <p style="margin: 0 0 8px 0; font-weight: bold;">⚠️ Gagal Mengupdate Data:</p>
+                <ul style="margin: 0; padding-left: 20px; font-weight: 500;">
+                    <?php foreach ($errors as $err): ?>
+                        <li><?= $err; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
     <?php endif; ?>
 
     <form method="POST" enctype="multipart/form-data">
@@ -122,63 +140,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="form-grid-2">
         <div class="form-group-card">
             <label>Kode Barang</label>
-            <input type="text" name="kode_barang" value="<?= htmlspecialchars($barang['kode_barang']); ?>" readonly>
+            <input type="text" name="kode_barang" value="<?= isset($_POST['kode_barang']) ? htmlspecialchars($_POST['kode_barang']) : htmlspecialchars($barang['kode_barang']); ?>" readonly>
         </div>
 
         <div class="form-group-card">
             <label>Nama Barang</label>
-            <input type="text" name="nama_barang" value="<?= htmlspecialchars($barang['nama_barang']); ?>" required>
+            <input type="text" name="nama_barang" value="<?= isset($_POST['nama_barang']) ? htmlspecialchars($_POST['nama_barang']) : htmlspecialchars($barang['nama_barang']); ?>" required>
         </div>
 
         <div class="form-group-card">
             <label>Warna</label>
+            <?php $warna_val = isset($_POST['warna']) ? htmlspecialchars($_POST['warna']) : $barang['warna']; ?>
             <select name="warna"  required>
                 <option value="">Pilih Warna</option>
-                <option value="Merah" <?= $barang['warna'] == 'Merah' ? 'selected' : ''; ?>>Merah</option>
-                <option value="Biru" <?= $barang['warna'] == 'Biru' ? 'selected' : ''; ?>>Biru</option>
-                <option value="Hijau" <?= $barang['warna'] == 'Hijau' ? 'selected' : ''; ?>>Hijau</option>
-                <option value="Kuning" <?= $barang['warna'] == 'Kuning' ? 'selected' : ''; ?>>Kuning</option>
-                <option value="Hitam" <?= $barang['warna'] == 'Hitam' ? 'selected' : ''; ?>>Hitam</option>
-                <option value="Putih" <?= $barang['warna'] == 'Putih' ? 'selected' : ''; ?>>Putih</option>
-                <option value="Abu-abu" <?= $barang['warna'] == 'Abu-abu' ? 'selected' : ''; ?>>Abu-abu</option>
-                <option value="Coklat" <?= $barang['warna'] == 'Coklat' ? 'selected' : ''; ?>>Coklat</option>
-                <option value="Ungu" <?= $barang['warna'] == 'Ungu' ? 'selected' : ''; ?>>Ungu</option>
-                <option value="Pink" <?= $barang['warna'] == 'Pink' ? 'selected' : ''; ?>>Pink</option>
-                <option value="Lainnya" <?= $barang['warna'] == 'Lainnya' ? 'selected' : ''; ?>>Lainnya</option>
+                <option value="Merah" <?= $warna_val == 'Merah' ? 'selected' : ''; ?>>Merah</option>
+                <option value="Biru" <?= $warna_val == 'Biru' ? 'selected' : ''; ?>>Biru</option>
+                <option value="Hijau" <?= $warna_val == 'Hijau' ? 'selected' : ''; ?>>Hijau</option>
+                <option value="Kuning" <?= $warna_val == 'Kuning' ? 'selected' : ''; ?>>Kuning</option>
+                <option value="Hitam" <?= $warna_val == 'Hitam' ? 'selected' : ''; ?>>Hitam</option>
+                <option value="Putih" <?= $warna_val == 'Putih' ? 'selected' : ''; ?>>Putih</option>
+                <option value="Abu-abu" <?= $warna_val == 'Abu-abu' ? 'selected' : ''; ?>>Abu-abu</option>
+                <option value="Coklat" <?= $warna_val == 'Coklat' ? 'selected' : ''; ?>>Coklat</option>
+                <option value="Ungu" <?= $warna_val == 'Ungu' ? 'selected' : ''; ?>>Ungu</option>
+                <option value="Pink" <?= $warna_val == 'Pink' ? 'selected' : ''; ?>>Pink</option>
+                <option value="Lainnya" <?= $warna_val == 'Lainnya' ? 'selected' : ''; ?>>Lainnya</option>
     </select>
         </div>
         <div class="form-group-card">
             <label>Kategori</label>
+            <?php $kategori_val = isset($_POST['kategori']) ? htmlspecialchars($_POST['kategori']) : $barang['kategori']; ?>
             <select name="kategori" required>
-                <option value="Bahan Baku" <?= $barang['kategori'] == 'Bahan Baku' ? 'selected' : ''; ?>>Bahan Baku</option>
-                <option value="Makanan" <?= $barang['kategori'] == 'Makanan' ? 'selected' : ''; ?>>Makanan</option>
-                <option value="Minuman" <?= $barang['kategori'] == 'Minuman' ? 'selected' : ''; ?>>Minuman</option>
-                <option value="Alat tulis" <?= $barang['kategori'] == 'Alat tulis' ? 'selected' : ''; ?>>Alat tulis</option>
-                <option value="Elektronik" <?= $barang['kategori'] == 'Elektronik' ? 'selected' : ''; ?>>Elektronik</option>
-                <option value="Peralatan Olahraga" <?= $barang['kategori'] == 'Peralatan Olahraga' ? 'selected' : ''; ?>>Peralatan Olahraga</option>
-                <option value="Kemasan" <?= $barang['kategori'] == 'Kemasan' ? 'selected' : ''; ?>>Kemasan</option>
+                <option value="Bahan Baku" <?= $kategori_val == 'Bahan Baku' ? 'selected' : ''; ?>>Bahan Baku</option>
+                <option value="Makanan" <?= $kategori_val == 'Makanan' ? 'selected' : ''; ?>>Makanan</option>
+                <option value="Minuman" <?= $kategori_val == 'Minuman' ? 'selected' : ''; ?>>Minuman</option>
+                <option value="Alat tulis" <?= $kategori_val == 'Alat tulis' ? 'selected' : ''; ?>>Alat tulis</option>
+                <option value="Elektronik" <?= $kategori_val == 'Elektronik' ? 'selected' : ''; ?>>Elektronik</option>
+                <option value="Peralatan Olahraga" <?= $kategori_val == 'Peralatan Olahraga' ? 'selected' : ''; ?>>Peralatan Olahraga</option>
+                <option value="Kemasan" <?= $kategori_val == 'Kemasan' ? 'selected' : ''; ?>>Kemasan</option>
             </select>
         </div>
         <div class="form-group-card">
             <label>Jumlah</label>
-            <input type="number" name="jumlah" value="<?= htmlspecialchars($barang['jumlah']); ?>" required>
+            <input type="number" name="jumlah" value="<?= isset($_POST['jumlah']) ? htmlspecialchars($_POST['jumlah']) : htmlspecialchars($barang['jumlah']); ?>" required>
         </div>
         <div class="form-group-card">
             <label>Satuan</label>
-            <input type="text" name="satuan" value="<?= htmlspecialchars($barang['satuan']); ?>" required placeholder="pcs/kg/liter/pack/lusin/lainnya">
+            <input type="text" name="satuan" value="<?= isset($_POST['satuan']) ? htmlspecialchars($_POST['satuan']) : htmlspecialchars($barang['satuan']); ?>" required placeholder="pcs/kg/liter/pack/lusin/lainnya">
         </div>
         <div class="form-group-card">
             <label>Harga</label>
-            <input type="number" name="harga" value="<?= htmlspecialchars($barang['harga']); ?>" required>
+            <input type="number" name="harga" value="<?= isset($_POST['harga']) ? htmlspecialchars($_POST['harga']) : htmlspecialchars($barang['harga']); ?>" required>
         </div>
         <div class="form-group-card">
             <label>Tanggal Masuk</label>
-            <input type="date" name="tanggal_masuk" value="<?= htmlspecialchars($barang['tanggal_masuk']); ?>" required>
+            <input type="date" name="tanggal_masuk" value="<?= isset($_POST['tanggal_masuk']) ? htmlspecialchars($_POST['tanggal_masuk']) : htmlspecialchars($barang['tanggal_masuk']); ?>" required>
         </div>
     </div>
         <div class="form-group form-group-full">
             <label>Deskripsi</label>
-            <textarea name="deskripsi" rows="3"><?= htmlspecialchars($barang['deskripsi']); ?></textarea>
+            <textarea name="deskripsi" rows="3"><?= isset($_POST['deskripsi']) ? htmlspecialchars($_POST['deskripsi']) : htmlspecialchars($barang['deskripsi']); ?></textarea>
         </div>
         <div class="action-buttons">
             <a href="index.php" class="btn btn-kembali">Kembali</a>
