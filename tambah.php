@@ -7,6 +7,8 @@ $data = $query->fetch(PDO::FETCH_ASSOC);
 $next = ($data['max_kode'] ?? 0) + 1;
 $kode_otomatis = "BRG-" . str_pad($next, 3, '0', STR_PAD_LEFT);
 
+$errors = [];
+$nama_foto_baru = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $kode_barang   = htmlspecialchars($_POST['kode_barang']);
@@ -19,7 +21,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $harga         = htmlspecialchars($_POST['harga']);
     $tanggal_masuk = htmlspecialchars($_POST['tanggal_masuk']);
     
-    $nama_foto_baru = '';
+    if (empty(trim($nama_barang))) {
+        $errors[] = "Nama barang tidak boleh kosong.";
+    }
+    if (!is_numeric($jumlah) || !is_numeric($harga)) {
+        $errors[] = "Jumlah dan Harga harus berupa angka.";
+    }
+
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
         $fileName = $_FILES['foto']['name'];
         $fileSize = $_FILES['foto']['size'];
@@ -29,20 +37,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
         if (!in_array($fileExt, $validExtensions)) {
-            $error_message = "Gagal: Ekstensi file hanya boleh JPG, JPEG, atau PNG.";
+            $errors[] = "Gagal: Ekstensi file hanya boleh JPG, JPEG, atau PNG.";
         } 
-        elseif ($fileSize > 1000000) { // Batas 1 MB sesuai modul
-            $error_message = "Gagal Upload Foto: Ukuran foto maksimal 1 MB.";
+        elseif ($fileSize > 1000000) { 
+            $errors[] = "Gagal Upload Foto: Ukuran foto maksimal 1 MB.";
         } 
         else {
             $nama_foto_baru = uniqid() . '.' . $fileExt; 
-            move_uploaded_file($tmpName, 'uploads/' . $nama_foto_baru);
+            $tmp_file_path = $tmpName;
         }
     } else {
-        $error_message = "Gagal: Foto barang wajib diunggah.";
+        $errors[] = "Gagal: Foto barang wajib diunggah.";
     }
-    if (!isset($error_message)) {
+
+    if (empty($errors)) {
     try {
+        move_uploaded_file($tmpName, 'uploads/' . $nama_foto_baru);
         $sql = "INSERT INTO barang (kode_barang,foto, nama_barang, warna ,kategori, deskripsi, jumlah, satuan, harga, tanggal_masuk) 
                 VALUES (:kode_barang, :foto, :nama_barang, :warna, :kategori, :deskripsi, :jumlah, :satuan, :harga, :tanggal_masuk)";
         
@@ -63,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: index.php");
         exit;
         } catch (PDOException $e) {
-            $error_message = "Gagal menambah data: " . $e->getMessage();
+            $errors[] = "Gagal menambah data: " . $e->getMessage();
         }
     }
 }
@@ -79,15 +89,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 <div class="container">
     <h2>Tambah Barang Baru</h2>
-    <?php if (isset($error_message)): ?>
-        <p style="color:red;"><?= $error_message; ?></p>
+    <?php if (!empty($errors)): ?>
+        <ul style="color:red;">
+            <?php foreach ($errors as $error): ?>
+                <li><?= $error; ?></li>
+            <?php endforeach; ?>
+        </ul>
     <?php endif; ?>
 
     <form method="POST" enctype="multipart/form-data">
         <div class="form-grid-2">
         <div class="form-group-card">
             <label> Kode Barang </label>
-            <input type="text" name="kode_barang" value="<?= $kode_otomatis; ?>" readonly>
+            <input type="text" name="kode_barang" value="<?= isset($_POST['kode_barang']) ? htmlspecialchars($_POST['kode_barang']) : $kode_otomatis; ?>" readonly>
         </div>
         <div class="form-group-card">
             <label for="foto">Foto Barang (jpg/png/jpeg, Max 1MB):</label>
@@ -95,59 +109,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div class="form-group-card">
             <label>Nama Barang</label>
-            <input type="text" name="nama_barang" required>
+            <input type="text" name="nama_barang" value="<?= isset($_POST['nama_barang']) ? htmlspecialchars($_POST['nama_barang']) : ''; ?>" required>
         </div>
         <div class="form-group-card">
                 <label>Warna</label>
+                <?php $warna_post = isset($_POST['warna']) ? htmlspecialchars($_POST['warna']) : ''; ?>
                 <select name="warna">
                     <option value="">Pilih Warna</option>
-                    <option value="Merah">Merah</option>
-                    <option value="Biru">Biru</option>
-                    <option value="Hijau">Hijau</option>
-                    <option value="Kuning">Kuning</option>
-                    <option value="Hitam">Hitam</option>
-                    <option value="Putih">Putih</option>
-                    <option value="Abu-abu">Abu-abu</option>
-                    <option value="Coklat">Coklat</option>
-                    <option value="Ungu">Ungu</option>
-                    <option value="Pink">Pink</option>
-                    <option value="Lainnya">Lainnya</option>
+                    <option value="Merah"<?= $warna_post == 'Merah' ? 'selected' : ''; ?>>Merah</option>
+                    <option value="Biru"<?= $warna_post == 'Biru' ? 'selected' : ''; ?>>Biru</option>
+                    <option value="Hijau"<?= $warna_post == 'Hijau' ? 'selected' : ''; ?>>Hijau</option>
+                    <option value="Kuning"<?= $warna_post == 'Kuning' ? 'selected' : ''; ?>>Kuning</option>
+                    <option value="Hitam"<?= $warna_post == 'Hitam' ? 'selected' : ''; ?>>Hitam</option>
+                    <option value="Putih"<?= $warna_post == 'Putih' ? 'selected' : ''; ?>>Putih</option>
+                    <option value="Abu-abu"<?= $warna_post == 'Abu-abu' ? 'selected' : ''; ?>>Abu-abu</option>
+                    <option value="Coklat"<?= $warna_post == 'Coklat' ? 'selected' : ''; ?>>Coklat</option>
+                    <option value="Ungu"<?= $warna_post == 'Ungu' ? 'selected' : ''; ?>>Ungu</option>
+                    <option value="Pink"<?= $warna_post == 'Pink' ? 'selected' : ''; ?>>Pink</option>
+                    <option value="Lainnya"<?= $warna_post == 'Lainnya' ? 'selected' : ''; ?>>Lainnya</option>
             </select>
         </div>
         <div class="form-group-card">
             <label>Kategori</label>
+            <?php $kategori_post = isset($_POST['kategori']) ? htmlspecialchars($_POST['kategori']) : ''; ?>
             <select name="kategori" required>
                 <option value="">Pilih Kategori</option>
-                <option value="Bahan Baku">Bahan Baku</option>
-                <option value="Makanan">Makanan</option>
-                <option value="Minuman">Minuman</option>
-                <option value="Alat tulis">Alat tulis</option>
-                <option value="Elektronik">Elektronik</option>
-                <option value="Peralatan Olahraga">Peralatan Olahraga</option>
-                <option value="Kemasan">Kemasan</option>
-                <option value="Lainnya">Lainnya</option>
+                <option value="Bahan Baku"<?= $kategori_post == 'Bahan Baku' ? 'selected' : ''; ?>>Bahan Baku</option>
+                <option value="Makanan"<?= $kategori_post == 'Makanan' ? 'selected' : ''; ?>>Makanan</option>
+                <option value="Minuman"<?= $kategori_post == 'Minuman' ? 'selected' : ''; ?>>Minuman</option>
+                <option value="Alat tulis"<?= $kategori_post == 'Alat tulis' ? 'selected' : ''; ?>>Alat tulis</option>
+                <option value="Elektronik"<?= $kategori_post == 'Elektronik' ? 'selected' : ''; ?>>Elektronik</option>
+                <option value="Peralatan Olahraga"<?= $kategori_post == 'Peralatan Olahraga' ? 'selected' : ''; ?>>Peralatan Olahraga</option>
+                <option value="Kemasan"<?= $kategori_post == 'Kemasan' ? 'selected' : ''; ?>>Kemasan</option>
+                <option value="Lainnya"<?= $kategori_post == 'Lainnya' ? 'selected' : ''; ?>>Lainnya</option>
             </select>
         </div>
         <div class="form-group-card">
             <label>Jumlah</label>
-            <input type="number" name="jumlah" required>
+            <input type="number" name="jumlah" value="<?= isset($_POST['jumlah']) ? htmlspecialchars($_POST['jumlah']) : ''; ?>" required>
         </div>
         <div class="form-group-card">
             <label>Satuan</label>
-            <input type="text" name="satuan" required placeholder="pcs/kg/liter/pack/lusin/lainnya">
+            <input type="text" name="satuan" value="<?= isset($_POST['satuan']) ? htmlspecialchars($_POST['satuan']) : ''; ?>" required placeholder="pcs/kg/liter/pack/lusin/lainnya">
         </div>
         <div class="form-group-card">
             <label>Harga</label>
-            <input type="number" name="harga" required>
+            <input type="number" name="harga" value="<?= isset($_POST['harga']) ? htmlspecialchars($_POST['harga']) : ''; ?>" required>
         </div>
         <div class="form-group-card">
             <label>Tanggal Masuk</label>
-            <input type="date" name="tanggal_masuk" required value="<?= date('Y-m-d'); ?>">
+            <input type="date" name="tanggal_masuk" required value="<?= isset($_POST['tanggal_masuk']) ? $_POST['tanggal_masuk'] : date('Y-m-d'); ?>">
         </div>
     </div>
         <div class="form-group-card form-group-full ">
             <label>Deskripsi</label>
-            <textarea name="deskripsi" rows="3"></textarea>
+            <textarea name="deskripsi" rows="3"><?= isset($_POST['deskripsi']) ? htmlspecialchars($_POST['deskripsi']) : ''; ?></textarea>
         </div>
         <div class="action-buttons">
             <a href="index.php" class="btn btn-kembali">Kembali</a>
