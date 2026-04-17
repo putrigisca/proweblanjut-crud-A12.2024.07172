@@ -90,11 +90,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="container">
     <h2>Tambah Barang Baru</h2>
     <?php if (!empty($errors)): ?>
-        <ul style="color:red;">
-            <?php foreach ($errors as $error): ?>
-                <li><?= $error; ?></li>
-            <?php endforeach; ?>
-        </ul>
+            <div style="background-color: #fee2e2; color: #991b1b; padding: 15px 20px; border-radius: 8px; border-left: 6px solid #dc2626; margin-bottom: 20px;">
+                <p style="margin: 0 0 8px 0; font-weight: bold;">⚠️ Gagal Menyimpan Data:</p>
+                <ul style="margin: 0; padding-left: 20px; font-weight: 500;">
+                    <?php foreach ($errors as $err): ?>
+                        <li><?= $err; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
     <?php endif; ?>
 
     <form method="POST" enctype="multipart/form-data">
