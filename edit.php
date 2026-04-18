@@ -177,6 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <option value="Elektronik" <?= $kategori_val == 'Elektronik' ? 'selected' : ''; ?>>Elektronik</option>
                 <option value="Peralatan Olahraga" <?= $kategori_val == 'Peralatan Olahraga' ? 'selected' : ''; ?>>Peralatan Olahraga</option>
                 <option value="Kemasan" <?= $kategori_val == 'Kemasan' ? 'selected' : ''; ?>>Kemasan</option>
+                <option value="Lainnya" <?= $kategori_val == 'Lainnya' ? 'selected' : ''; ?>>Lainnya</option>
             </select>
         </div>
         <div class="form-group-card">
