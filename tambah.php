@@ -138,6 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <select name="kategori" required>
                 <option value="">Pilih Kategori</option>
                 <option value="Bahan Baku"<?= $kategori_post == 'Bahan Baku' ? 'selected' : ''; ?>>Bahan Baku</option>
+                <option value="Pakaian"<?= $kategori_post == 'Pakaian' ? 'selected' : ''; ?>>Pakaian</option>
                 <option value="Makanan"<?= $kategori_post == 'Makanan' ? 'selected' : ''; ?>>Makanan</option>
                 <option value="Minuman"<?= $kategori_post == 'Minuman' ? 'selected' : ''; ?>>Minuman</option>
                 <option value="Alat tulis"<?= $kategori_post == 'Alat tulis' ? 'selected' : ''; ?>>Alat tulis</option>

@@ -171,6 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php $kategori_val = isset($_POST['kategori']) ? htmlspecialchars($_POST['kategori']) : $barang['kategori']; ?>
             <select name="kategori" required>
                 <option value="Bahan Baku" <?= $kategori_val == 'Bahan Baku' ? 'selected' : ''; ?>>Bahan Baku</option>
+                <option value="Pakaian" <?$kategori_val == 'Pakaian' ? 'selected' : ''; ?>>Pakaian</option>
                 <option value="Makanan" <?= $kategori_val == 'Makanan' ? 'selected' : ''; ?>>Makanan</option>
                 <option value="Minuman" <?= $kategori_val == 'Minuman' ? 'selected' : ''; ?>>Minuman</option>
                 <option value="Alat tulis" <?= $kategori_val == 'Alat tulis' ? 'selected' : ''; ?>>Alat tulis</option>
