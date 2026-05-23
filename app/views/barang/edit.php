@@ -20,19 +20,20 @@
     <?php endif; ?>
 
     <form action="index.php?action=update&id=<?= $id; ?>" method="POST" enctype="multipart/form-data">
+    
     <div class="foto-center-wrapper">
     <div class="form-group-card card-foto">
         <label>Foto Barang</label>
             <?php if (!empty($barang['foto']) && file_exists('../assets/uploads/' . $barang['foto'])): ?>
-                <img src="../assets/uploads/<?= htmlspecialchars($barang['foto']); ?>" alt="<?= htmlspecialchars($barang['nama_barang']); ?>" class="foto-detail">
+                <img src="../assets/uploads/<?= htmlspecialchars($barang['foto']); ?>" alt="<?= htmlspecialchars($barang['nama_barang']); ?>" class="foto-detail" id="preview-img">
             <?php else: ?>
-                <div class="no-foto">
+                <div class="no-foto" id="text-no-foto">
                 <p style="margin: 0;">Tidak ada foto untuk barang ini, silahkan unggah foto.</p>
                 </div>
             <?php endif; ?>
             <div style="margin-top: 10px;">
             <label for="foto" style="font-size: 13px; color: #555;">Ganti/Unggah Foto Baru (Max 1MB) </label>
-            <input type="file" name="foto" id="foto" accept=".jpg, .jpeg, .png">
+            <input type="file" name="foto" id="foto" accept=".jpg, .jpeg, .png" onchange="previewImage(event)">
         </div>
     </div>
     </div>
@@ -107,5 +108,27 @@
         </div>
     </form>
 </div>
+<script>
+    
+    function previewImage(event) {
+        const preview = document.getElementById('preview-img');
+        const noFoto = document.getElementById('text-no-foto');
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function() {
+            
+                if (preview) {
+                    preview.src = reader.result;
+                    preview.style.display = 'block'; 
+                }
+                if (noFoto) {
+                    noFoto.style.display = 'none'; 
+                }
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
 </body>
 </html>
