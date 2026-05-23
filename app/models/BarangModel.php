@@ -52,5 +52,22 @@ class BarangModel {
         $stmt = $this->pdo->prepare("DELETE FROM barang WHERE id = ?");
         return $stmt->execute([$id]);
     }
-}       
+
+    public function updateData($data) {
+     $sql = "UPDATE barang SET 
+                kode_barang = :kode_barang, 
+                foto = :foto,
+                nama_barang = :nama_barang,
+                warna = :warna,
+                kategori = :kategori, 
+                deskripsi = :deskripsi, 
+                jumlah = :jumlah, 
+                satuan = :satuan, 
+                harga = :harga, 
+                tanggal_masuk = :tanggal_masuk 
+                WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute($data);
+} 
+}      
 ?>
