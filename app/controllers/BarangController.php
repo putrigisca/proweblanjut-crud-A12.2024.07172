@@ -116,5 +116,27 @@ class BarangController {
             require_once '../app/views/barang/create.php';
         }
     }
+    
+    public function hapus() {
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            
+            $barang = $this->model->getBarangById($id);
+
+            if ($barang && !empty($barang['foto'])) {
+
+                $file_path = '../assets/uploads/' . $barang['foto'];
+                if (file_exists($file_path)) {
+                    unlink($file_path);
+                }
+            }
+
+            $this->model->hapusData($id);
+        }
+
+        header("Location: index.php");
+        exit;
+    }
 }
+
 ?>
