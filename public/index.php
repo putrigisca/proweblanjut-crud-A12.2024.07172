@@ -16,6 +16,12 @@ switch ($action) {
     case 'hapus':
         $controller->hapus();
         break;   
+    case 'edit':
+        $controller->edit();
+        break;
+    case 'update':
+        $controller->update();
+        break;
     default:
         $controller->index();
         break;
