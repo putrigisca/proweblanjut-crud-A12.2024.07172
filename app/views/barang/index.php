@@ -20,8 +20,8 @@
             </div>
             
             <div style="display: flex; gap: 10px;">
-                <a href="../tambah.php" class="btn-tambah"><i class="fas fa-plus"></i> Tambah Barang Baru</a>
-                <a href="../logout.php" class="btn-kembali" style="margin: 0; gap: 5px; border-color: #ff7675; color: #d63031;"><i class="fas fa-sign-out-alt"></i>  Logout</a>
+                <a href="index.php?action=create" class="btn-tambah"><i class="fas fa-plus"></i>Tambah Barang Baru</a>
+                <a href="logout.php" class="btn-kembali" style="margin: 0; gap: 5px; border-color: #ff7675; color: #d63031;"><i class="fas fa-sign-out-alt"></i>  Logout</a>
             </div>
         </div>
 
@@ -76,13 +76,13 @@
                     <td><?= date('d M Y', strtotime($row['tanggal_masuk'])); ?></td>
                     <td>
                         <div class="action-group" style="justify-content: center;">
-                            <a href="../detail.php?id=<?= $row['id']; ?>" class="btn-icon btn-detail" title="Detail">
+                            <a href="index.php?action=detail&id=<?= $row['id']; ?>" class="btn-icon btn-detail" title="Detail">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a href="../edit.php?id=<?= $row['id']; ?>" class="btn-icon btn-edit" title="Edit">
+                            <a href="index.php?action=edit&id=<?= $row['id']; ?>" class="btn-icon btn-edit" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="../hapus.php?id=<?= $row['id']; ?>" class="btn-icon btn-hapus" onclick="return confirm('Apakah kamu yakin ingin menghapus data ini?');" title="Hapus">
+                            <a href="index.php?action=hapus&id=<?= $row['id']; ?>" class="btn-icon btn-hapus" onclick="return confirm('Apakah kamu yakin ingin menghapus data ini?');" title="Hapus">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </div>
