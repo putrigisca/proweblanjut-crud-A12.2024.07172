@@ -137,7 +137,7 @@ class BarangController {
         header("Location: index.php");
         exit;
     }
-    
+
     public function edit() {
         if (!isset($_GET['id'])) {
             header("Location: index.php");
@@ -240,6 +240,22 @@ class BarangController {
             
             require_once '../app/views/barang/edit.php';
         }
+    }
+
+    public function detail() {
+        if (!isset($_GET['id'])) {
+            header("Location: index.php");
+            exit;
+        }
+
+        $id = $_GET['id'];
+
+        $barang = $this->model->getBarangById($id);
+
+        if (!$barang) {
+            die("Data tidak ditemukan!");
+        }
+        require_once '../app/views/barang/detail.php';
     }
 }
 
