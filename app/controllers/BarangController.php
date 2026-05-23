@@ -6,13 +6,36 @@ class BarangController {
     private $model;
 
     public function __construct() {
-        global $pdo;
+       if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+    }
+    global $pdo;
+
+    if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
+            if (isset($_COOKIE["username"])) {
+                $stmt_cookie = $pdo->prepare("SELECT * FROM users WHERE username = :username");
+                $stmt_cookie->execute([':username' => $_COOKIE["username"]]);
+                $user_cookie = $stmt_cookie->fetch(PDO::FETCH_ASSOC);
+
+                if ($user_cookie) {
+                    $_SESSION['login'] = true;
+                    $_SESSION['nama_lengkap'] = $user_cookie['nama_lengkap'];
+                    $_SESSION['username'] = $user_cookie['username'];
+                } else {
+                    header("Location: ../public/login.php");
+                    exit();
+                }
+            } else {
+                header("Location: ../public/login.php");
+                exit();
+            }
+        }
+        
         $this->model = new BarangModel($pdo);
     }
 
     public function index() {
-        session_start(); 
-        global $pdo;
+        $keyword = '';
 
         if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
             if (isset($_COOKIE["username"])) {
