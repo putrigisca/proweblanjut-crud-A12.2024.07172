@@ -13,8 +13,12 @@ switch ($action) {
     case 'store':
         $controller->store();
         break;
+    case 'hapus':
+        $controller->hapus();
+        break;   
     default:
         $controller->index();
         break;
 }
+
 ?>
