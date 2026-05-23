@@ -22,6 +22,9 @@ switch ($action) {
     case 'update':
         $controller->update();
         break;
+    case 'detail':
+        $controller->detail();
+        break;
     default:
         $controller->index();
         break;
