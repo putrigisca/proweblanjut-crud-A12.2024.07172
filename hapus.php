@@ -10,7 +10,7 @@ if (isset($_GET['id'])) {
     if ($barang && !empty($barang['foto'])) {
         $file_path = 'uploads/' . $barang['foto'];
         if (file_exists($file_path)) {
-            unlink($file_path); // Ini fungsi dari PDF dosenmu untuk menghapus file!
+            unlink($file_path);
         }
     }
 
