@@ -1,6 +1,7 @@
 <?php
 require_once '../config/database.php';
 require_once '../app/models/BarangModel.php';
+require_once '../app/models/UserModel.php';
 
 class BarangController {
     private $model;
@@ -13,9 +14,8 @@ class BarangController {
 
     if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
             if (isset($_COOKIE["username"])) {
-                $stmt_cookie = $pdo->prepare("SELECT * FROM users WHERE username = :username");
-                $stmt_cookie->execute([':username' => $_COOKIE["username"]]);
-                $user_cookie = $stmt_cookie->fetch(PDO::FETCH_ASSOC);
+                $userModel = new UserModel($pdo);
+                $user_cookie = $userModel->getUserByUsername($_COOKIE["username"]);
 
                 if ($user_cookie) {
                     $_SESSION['login'] = true;
