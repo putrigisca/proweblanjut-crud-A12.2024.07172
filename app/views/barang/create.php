@@ -20,14 +20,30 @@
     <?php endif; ?>
 
    <form action="index.php?action=store" method="POST" enctype="multipart/form-data">
+    <div class="foto-center-wrapper">
+        <div class="form-group-card card-foto">
+            <label>Foto Barang</label>
+                
+        <?php if (isset($barang['foto']) && !empty($barang['foto']) && file_exists('../assets/uploads/' . $barang['foto'])): ?>
+                <img src="../assets/uploads/<?= htmlspecialchars($barang['foto']); ?>" alt="<?= htmlspecialchars($barang['nama_barang']); ?>" class="foto-detail">
+                <?php else: ?>
+                <img src="" id="preview-img" class="foto-detail" style="max-width: 200px; display: none; margin: 0 auto 10px;">
+            <div class="no-foto" id="text-no-foto">
+                <p style="margin: 0;">Tidak ada foto, silahkan unggah.</p>
+            </div>
+        <?php endif; ?>
+
+                <div style="margin-top: 10px;">
+                <label for="foto" style="font-size: 13px; color: #555;">Unggah Foto Baru (Max 1MB)</label>
+                <input type="file" name="foto" id="foto" accept=".jpg, .jpeg, .png" onchange="previewImage(event)">
+            </div>
+        </div>
+    </div>
+    
         <div class="form-grid-2">
         <div class="form-group-card">
             <label> Kode Barang </label>
             <input type="text" name="kode_barang" value="<?= isset($_POST['kode_barang']) ? htmlspecialchars($_POST['kode_barang']) : $kode_otomatis; ?>" readonly>
-        </div>
-        <div class="form-group-card">
-            <label for="foto">Foto Barang (jpg/png/jpeg, Max 1MB):</label>
-            <input type="file" name="foto" id="foto" accept=".jpg, .jpeg, .png" required>
         </div>
         <div class="form-group-card">
             <label>Nama Barang</label>
@@ -94,5 +110,26 @@
         </div>
     </form>
 </div>
+<script>
+    function previewImage(event) {
+        const preview = document.getElementById('preview-img');
+        const noFoto = document.getElementById('text-no-foto');
+        const file = event.target.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                if (preview) {
+                    preview.src = reader.result;
+                    preview.style.display = 'block'; 
+                }
+                if (noFoto) {
+                    noFoto.style.display = 'none'; 
+                }
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
 </body>
 </html>
