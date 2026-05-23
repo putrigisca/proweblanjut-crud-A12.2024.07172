@@ -137,6 +137,110 @@ class BarangController {
         header("Location: index.php");
         exit;
     }
+    
+    public function edit() {
+        if (!isset($_GET['id'])) {
+            header("Location: index.php");
+            exit;
+        }
+
+        $id = $_GET['id'];
+        $barang = $this->model->getBarangById($id);
+
+        if (!$barang) {
+            die("Data tidak ditemukan!");
+        }
+
+        $errors = [];
+        require_once '../app/views/barang/edit.php';
+    }
+
+    public function update() {
+        if (!isset($_GET['id'])) {
+            header("Location: index.php");
+            exit;
+        }
+
+        $id = $_GET['id'];
+        $barang = $this->model->getBarangById($id);
+
+        if (!$barang) {
+            die("Data tidak ditemukan!");
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $kode_barang   = $_POST['kode_barang'];
+            $nama_barang   = $_POST['nama_barang'];
+            $warna         = $_POST['warna'];
+            $kategori      = $_POST['kategori'];
+            $deskripsi     = $_POST['deskripsi'];
+            $jumlah        = $_POST['jumlah'];
+            $satuan        = $_POST['satuan'];
+            $harga         = $_POST['harga'];
+            $tanggal_masuk = $_POST['tanggal_masuk'];
+
+            $errors = [];
+            if (empty(trim($nama_barang))) {
+                $errors[] = "Nama barang tidak boleh kosong.";
+            }
+            if (!is_numeric($jumlah) || !is_numeric($harga)) {
+                $errors[] = "Jumlah dan Harga harus berupa angka.";
+            }
+
+            $nama_foto_baru = $barang['foto'];
+            if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
+                $fileName = $_FILES['foto']['name'];
+                $fileSize = $_FILES['foto']['size'];
+                $tmpName  = $_FILES['foto']['tmp_name'];
+
+                $validExtensions = ['jpg', 'jpeg', 'png'];
+                $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+                if (!in_array($fileExt, $validExtensions)) {
+                    $errors[] = "Gagal: Ekstensi file hanya boleh JPG, JPEG, atau PNG.";
+                } elseif ($fileSize > 1000000) {
+                    $errors[] = "Gagal Upload Foto: Ukuran foto maksimal 1 MB.";
+                } else {
+                    $nama_foto_baru = uniqid() . '.' . $fileExt; 
+                    $tmp_file_path = $tmpName;
+                }
+            }
+
+            if (empty($errors)) {
+                try {
+                    if (isset($tmp_file_path)) {
+                        if (!empty($barang['foto']) && file_exists('../assets/uploads/' . $barang['foto'])) {
+                            unlink('../assets/uploads/' . $barang['foto']);
+                        }
+                        move_uploaded_file($tmp_file_path, '../assets/uploads/' . $nama_foto_baru);
+                    }
+
+                    $dataUpdate = [
+                        ':kode_barang'   => $kode_barang,
+                        ':foto'           => $nama_foto_baru,
+                        ':nama_barang'   => $nama_barang,
+                        ':warna'         => $warna,
+                        ':kategori'      => $kategori,
+                        ':deskripsi'     => $deskripsi,
+                        ':jumlah'        => $jumlah,
+                        ':satuan'        => $satuan,
+                        ':harga'         => $harga,
+                        ':tanggal_masuk' => $tanggal_masuk,
+                        ':id'            => $id
+                    ];
+
+                    $this->model->updateData($dataUpdate);
+
+                    header("Location: index.php");
+                    exit;
+                } catch (PDOException $e) {
+                    $errors[] = "Gagal mengupdate data: " . $e->getMessage();
+                }
+            }   
+            
+            require_once '../app/views/barang/edit.php';
+        }
+    }
 }
 
 ?>
