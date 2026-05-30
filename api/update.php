@@ -6,7 +6,6 @@ $input = json_decode(file_get_contents("php://input"), true);
 
 if (!empty($input['id'])) {
     $sql = "UPDATE barang SET 
-            kode_barang = :kode_barang,
             nama_barang = :nama_barang, 
             warna = :warna,
             kategori = :kategori,
@@ -20,7 +19,6 @@ if (!empty($input['id'])) {
             
     $stmt = $pdo->prepare($sql);
     $sukses = $stmt->execute([
-        ':kode_barang'   => isset($input['kode_barang']) ? $input['kode_barang'] : '',
         ':nama_barang'   => isset($input['nama_barang']) ? $input['nama_barang'] : '',
         ':warna'         => isset($input['warna']) ? $input['warna'] : '',
         ':kategori'      => isset($input['kategori']) ? $input['kategori'] : '',
